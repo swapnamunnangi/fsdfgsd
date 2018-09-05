@@ -1,0 +1,53 @@
+Glassfish3 Deployment:
+----------------------------------
+./GFserver3 status 		- To check the status of the server whether it is up/down
+./GFserver3 stop --all	- To stop the server
+./GFserver3 start --all	- To Start server
+./GFserver3 restore		- To restore the nodes and clusters (Creates folders nodes and cluster-domain) - To be done before starting the server.
+./GFserver3 configure	- To be done without stopping the server.(Need to restart server after doing this step)
+kill -9 processID		- Kills the process forcefully
+rm -r <file1> <file2>	- To remove file
+
+Galssfish 2 Deployment:
+----------------------------------
+./GFserver status		- To check status of server
+./GFserver stopall		- Stop server
+rm -rf <file1> <file2>	- To remove file
+tar xvf <tarballname>	- Extract tar file
+./GFserver recreate		- Creates clusterdomain and nodeagents
+./GFserver reconfigure	- Configure the application
+./GFserver startall		- Start server
+kill -9 <processId>		- To kill the process
+
+Glassfish4 Deployment:
+----------------------------------
+To deploy the application, following procedure need to be used:
+sample - ./GFserver4 create-tar -f tmp/3830_D_20170802_1835.tar
+Note:- Creating tar ball
+1. Stop the Payara / GlassFish 4 instance(s) and DAS by executing the following
+command on each hosting server of the cluster (lpapp425vm/lpapp426vm/lpapp427vm/lpapp428vm):
+	./GFserver4 stop --all
+2. Clean currently existig config directory on the hosting server where DAS is running:
+	./GFserver4 remove-config
+3. Clean the content of the directories project-local and/or project-synced:
+	./GFserver4 remove-project-local
+	./GFserver4 remove-project-synced
+Note: it will remove the files insede the folders  project-local & project-synced
+4. Extracts the “tarball” rmt-dist-app-[x.x.x]-prod.tar:
+	./GFserver4 extract-tar -f 3830_D_20170802_1835.tar
+5. Remove “old” clusterDomain and nodes directories:
+	./GFserver4 remove-domain
+Note: it will delete cluster domain folder and files in nodes folder.
+6. Recreate the clusterDomain directory and its contents.
+	./GFserver4 restore
+Note: Also it will stop the application servers.
+7. Start the application server instances by executing the following command on
+each hosting server of the cluster (lpapp425vm/lpapp426vm/lpapp427vm/lpapp428vm)
+	./GFserver4 start --all
+8. Run the postchange script only on the hosting server where DAS is running
+	./GFserver4 exec -f config/hooks/postchange
+Note: 
+
+========
+./GFserver4 status
+	
